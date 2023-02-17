@@ -29,19 +29,26 @@ public class MainActivity extends AppCompatActivity {
         okButton = findViewById(R.id.ok_button);
         retrievedPassTV = findViewById(R.id.retrieved_pass);
 
+        // i do this because placeholder in string are displaying by default
+        setRetrievedPassTVText("");
+
         visibilityOptionsRG.setOnCheckedChangeListener((radioGroup, i) -> {
             int cursorStart = passwordInputET.getSelectionStart();
             int cursorEnd = passwordInputET.getSelectionEnd();
 
-            if (i == findViewById(R.id.hide_rb).getId()) {
+            if (i == R.id.hide_rb) {
                 passwordInputET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            } else if (i == findViewById(R.id.show_rb).getId()) {
+            } else if (i == R.id.show_rb) {
                 passwordInputET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
             }
 
             passwordInputET.setSelection(cursorStart, cursorEnd);
         });
 
-        okButton.setOnClickListener(v -> retrievedPassTV.setText(passwordInputET.getText()));
+        okButton.setOnClickListener(v -> setRetrievedPassTVText(passwordInputET.getText().toString()));
+    }
+
+    private void setRetrievedPassTVText(String text) {
+        retrievedPassTV.setText(getResources().getString(R.string.retrieved_pass, text));
     }
 }
