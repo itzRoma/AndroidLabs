@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">lab2</string>
-    <string name="hide_rb">Hide</string>
-    <string name="show_rb">Show</string>
-    <string name="ok_btn">OK</string>
-    <string name="retrieved_pass">Your password: %1$s</string>
-    <string name="back_btn">Back</string>
-</resources>

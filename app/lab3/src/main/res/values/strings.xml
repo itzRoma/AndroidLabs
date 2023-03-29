@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">lab3</string>
+    <string name="hide_rb">Hide</string>
+    <string name="show_rb">Show</string>
+    <string name="ok_btn">OK</string>
+    <string name="back_btn">Back</string>
+    <string name="site_input_label">Site</string>
+    <string name="username_input_label">Username</string>
+    <string name="password_input_label">Password</string>
+    <string name="af_mng_btn">Autofill manager</string>
+    <string name="clear_db_btn">Clear</string>
+</resources>
