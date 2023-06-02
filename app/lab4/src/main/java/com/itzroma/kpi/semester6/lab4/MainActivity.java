@@ -1,11 +1,13 @@
 package com.itzroma.kpi.semester6.lab4;
 
 import android.os.Bundle;
-import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.itzroma.kpi.semester6.lab4.audio.fragment.AudioListFragment;
 import com.itzroma.kpi.semester6.lab4.util.FragmentUtil;
 import com.itzroma.kpi.semester6.lab4.video.fragment.VideoListFragment;
@@ -19,17 +21,29 @@ public class MainActivity extends AppCompatActivity implements FragmentHolder {
 
         replaceFragment(new AudioListFragment());
 
-        ((RadioGroup) findViewById(R.id.type_options)).setOnCheckedChangeListener((radioGroup, i) -> {
-            if (i == R.id.audio_type_option) {
-                replaceFragment(new AudioListFragment());
-            } else if (i == R.id.video_type_option) {
-                replaceFragment(new VideoListFragment());
-            }
-        });
+        ((BottomNavigationView) findViewById(R.id.bottom_nav))
+                .setOnItemSelectedListener(typeSelectedListener());
     }
 
     private void replaceFragment(Fragment fragment) {
         FragmentUtil.replaceFragmentFor(getSupportFragmentManager(), fragment, getFragmentPlaceholderId());
+    }
+
+    @NonNull
+    private NavigationBarView.OnItemSelectedListener typeSelectedListener() {
+        return item -> {
+            switch (item.getItemId()) {
+                case R.id.audio_option:
+                    replaceFragment(new AudioListFragment());
+                    item.setChecked(true);
+                    break;
+                case R.id.video_option:
+                    replaceFragment(new VideoListFragment());
+                    item.setChecked(true);
+                    break;
+            }
+            return false;
+        };
     }
 
     @Override

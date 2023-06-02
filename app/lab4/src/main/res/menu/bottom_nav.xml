@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/audio_option"
+        android:icon="@drawable/baseline_music_note_24"
+        android:title="@string/audio_type_option_text"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/video_option"
+        android:icon="@drawable/baseline_videocam_24"
+        android:title="@string/video_type_option_text"
+        app:showAsAction="ifRoom" />
+</menu>
