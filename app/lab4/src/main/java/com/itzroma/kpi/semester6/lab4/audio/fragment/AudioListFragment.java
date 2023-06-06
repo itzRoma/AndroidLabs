@@ -1,7 +1,5 @@
 package com.itzroma.kpi.semester6.lab4.audio.fragment;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
@@ -10,10 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,11 +34,7 @@ public class AudioListFragment extends Fragment {
 
         TextView noAudioTitle = view.findViewById(R.id.no_audio_title);
         RecyclerView audioRecyclerView = view.findViewById(R.id.audio_recycler_view);
-
-        if (!checkPermission()) {
-            requestPermission();
-            return view;
-        }
+        AudioListAdapter audioListAdapter = new AudioListAdapter(audioList, requireContext());
 
         String[] projection = {
                 MediaStore.Audio.Media.DATA,
@@ -54,7 +45,7 @@ public class AudioListFragment extends Fragment {
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
         Cursor cursor = requireContext().getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, null);
-        System.out.println("SCANNING STORAGE STARTED");
+        System.out.println("SCANNING STORAGE FOR AUDIO STARTED");
         while (cursor.moveToNext()) {
             AudioModel audio = new AudioModel(
                     cursor.getString(0),
@@ -74,29 +65,17 @@ public class AudioListFragment extends Fragment {
                 audioList.add(audio);
             }
         }
-        System.out.println("SCANNING STORAGE FINISHED");
+        audioListAdapter.notifyDataSetChanged();
+        System.out.println("SCANNING STORAGE FOR AUDIO FINISHED");
         cursor.close();
 
         if (audioList.isEmpty()) {
             noAudioTitle.setVisibility(View.VISIBLE);
         } else {
             audioRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-            audioRecyclerView.setAdapter(new AudioListAdapter(audioList, requireContext()));
+            audioRecyclerView.setAdapter(audioListAdapter);
         }
 
         return view;
-    }
-
-    private boolean checkPermission() {
-        int res = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
-        return res == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            Toast.makeText(requireContext(), "READ EXTERNAL STORAGE PERMISSION IS REQUIRED, PLEASE ALLOW FROM SETTING", Toast.LENGTH_LONG).show();
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 123);
-        }
     }
 }

@@ -1,9 +1,14 @@
 package com.itzroma.kpi.semester6.lab4;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -23,6 +28,10 @@ public class MainActivity extends AppCompatActivity implements FragmentHolder {
 
         ((BottomNavigationView) findViewById(R.id.bottom_nav))
                 .setOnItemSelectedListener(typeSelectedListener());
+
+        if (!checkPermission()) {
+            requestPermission();
+        }
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -44,6 +53,19 @@ public class MainActivity extends AppCompatActivity implements FragmentHolder {
             }
             return false;
         };
+    }
+
+    private boolean checkPermission() {
+        int res = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        return res == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            Toast.makeText(this, "READ EXTERNAL STORAGE PERMISSION IS REQUIRED, PLEASE ALLOW FROM SETTING", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 123);
+        }
     }
 
     @Override
