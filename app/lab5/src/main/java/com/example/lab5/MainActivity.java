@@ -40,8 +40,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSensorChanged(SensorEvent event) {
                 if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                    circle.setTranslationX((float) (Resources.getSystem().getDisplayMetrics().widthPixels / 2 + event.values[0] * Resources.getSystem().getDisplayMetrics().widthPixels / 9.81 - (75 + 75 / 3)));
-                    circle.setTranslationY((float) (Resources.getSystem().getDisplayMetrics().heightPixels / 2 - event.values[1] * Resources.getSystem().getDisplayMetrics().heightPixels / 9.81 - (75 + 75 / 3)));
+                    int offset = 75 + 75 / 3;
+                    float newX = (float) (Resources.getSystem().getDisplayMetrics().widthPixels / 2 + event.values[0] * Resources.getSystem().getDisplayMetrics().widthPixels / 9.81 - offset);
+                    float newY = (float) (Resources.getSystem().getDisplayMetrics().heightPixels / 2 - event.values[1] * Resources.getSystem().getDisplayMetrics().heightPixels / 9.81 - offset);
+
+                    if (newX < -offset) newX = -offset;
+                    if (newY < -offset) newY = -offset;
+
+                    circle.setTranslationX(Math.min(newX, Resources.getSystem().getDisplayMetrics().widthPixels - 75));
+                    circle.setTranslationY(Math.min(newY, Resources.getSystem().getDisplayMetrics().heightPixels - 75));
                 }
             }
 
