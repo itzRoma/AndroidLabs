@@ -1,12 +1,12 @@
 package com.example.lab5;
 
-import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ImageView circle = findViewById(R.id.circle);
 
         SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -36,14 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         sensorManager.registerListener(new SensorEventListener() {
             @Override
-            @SuppressLint("DefaultLocale")
             public void onSensorChanged(SensorEvent event) {
                 if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                    TextView sensorValues = findViewById(R.id.sensor_values);
-                    sensorValues.setText(String.format(
-                            "x: %f%ny: %f%nz: %f",
-                            event.values[0], event.values[1], event.values[2]
-                    ));
+                    circle.setTranslationX((float) (Resources.getSystem().getDisplayMetrics().widthPixels / 2 + event.values[0] * Resources.getSystem().getDisplayMetrics().widthPixels / 9.81 - (75 + 75 / 3)));
+                    circle.setTranslationY((float) (Resources.getSystem().getDisplayMetrics().heightPixels / 2 - event.values[1] * Resources.getSystem().getDisplayMetrics().heightPixels / 9.81 - (75 + 75 / 3)));
                 }
             }
 
