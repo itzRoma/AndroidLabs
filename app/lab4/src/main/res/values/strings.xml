@@ -3,4 +3,5 @@
     <string name="audio_type_option_text">AUDIO</string>
     <string name="video_type_option_text">VIDEO</string>
     <string name="no_audio_found_text">NO AUDIO FOUND</string>
+    <string name="no_video_found_text">NO VIDEO FOUND</string>
 </resources>

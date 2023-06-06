@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidLabs">
         <activity
+            android:name=".video.VideoPlayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".audio.AudioPlayerActivity"
             android:exported="false" />
         <activity

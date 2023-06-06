@@ -1,4 +1,4 @@
-package com.itzroma.kpi.semester6.lab4.util;
+package com.itzroma.kpi.semester6.lab4;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
